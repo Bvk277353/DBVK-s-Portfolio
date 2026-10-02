@@ -132,68 +132,80 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 5. Secure Contact Form Deployment Integration (Submits to Render Backend)
+// 5. Secure Contact Form Deployment Integration
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contact-form');
     const submitBtn = document.getElementById('submit-btn');
     const formStatus = document.getElementById('form-status');
     const modalOverlay = document.getElementById('modal');
 
-    if (contactForm) {
-        contactForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+    if (!contactForm) return;
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Sending...';
-            formStatus.style.color = '#9ca3af';
-            formStatus.textContent = 'Sending your message...';
+    contactForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
 
-            const formData = {
-                from_name: document.getElementById('user-name')?.value || document.querySelector('[name="from_name"]')?.value || '', 
-                reply_to: document.getElementById('user-email')?.value || document.querySelector('[name="reply_to"]')?.value || '',
-                message: document.getElementById('user-message')?.value || document.querySelector('[name="message"]')?.value || ''
-            };
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
 
-            // FIX: Pointing exactly to your unique deployed app container endpoint mapping
-            const RENDER_BACKEND_URL = 'https://onrender.com';
+        formStatus.style.color = '#9ca3af';
+        formStatus.textContent = 'Sending your message...';
 
-            fetch(RENDER_BACKEND_URL, {
+        const formData = {
+            from_name: document.getElementById('user-name').value.trim(),
+            reply_to: document.getElementById('user-email').value.trim(),
+            message: document.getElementById('user-message').value.trim()
+        };
+
+        // IMPORTANT:
+        // Replace this with the EXACT URL of your Render Web Service.
+        const RENDER_BACKEND_URL =
+            'https://https://dbvk-s-portfolio.onrender.com/api/contact';
+
+        try {
+            const response = await fetch(RENDER_BACKEND_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
-            })
-            .then(async (response) => {
-                const data = await response.json();
-                if (!response.ok || !data.success) {
-                    throw new Error(data.error || 'Server error occurred processing message.');
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(
+                    data.error || 'Server failed to send the message.'
+                );
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
+
+            formStatus.style.color = '#10b981';
+            formStatus.textContent = 'Message sent successfully!';
+
+            contactForm.reset();
+
+            setTimeout(() => {
+                if (modalOverlay) {
+                    modalOverlay.classList.remove('active');
                 }
 
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-                formStatus.style.color = '#10b981';
-                formStatus.textContent = 'Message sent successfully!';
-                
-                contactForm.reset();
+                formStatus.textContent = '';
+            }, 2000);
 
-                setTimeout(() => {
-                    if (modalOverlay) {
-                        modalOverlay.classList.remove('active');
-                    }
-                    formStatus.textContent = '';
-                }, 2000);
-            })
-            .catch((error) => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-                formStatus.style.color = '#ef4444';
-                formStatus.textContent = 'Failed to send message. Please try again.';
-                console.error('Relay Endpoint Error:', error);
-            });
-        });
-    }
+        } catch (error) {
+            console.error('Relay Endpoint Error:', error);
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
+
+            formStatus.style.color = '#ef4444';
+            formStatus.textContent =
+                'Failed to send message. Please try again.';
+        }
+    });
 });
-
 // 6. Video Playlist Switcher
 const playlistBtns = document.querySelectorAll('.playlist-btn');
 const mainVideoPlayer = document.getElementById('main-video-player');
