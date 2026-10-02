@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // UPDATE THIS LINE: Replace with your final deployed Render URL
-            const RENDER_BACKEND_URL = 'https://onrender.com';
+            const RENDER_BACKEND_URL = 'https://dbvk-s-portfolio.onrender.com/';
 
             fetch(RENDER_BACKEND_URL, {
                 method: 'POST',
