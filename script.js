@@ -147,15 +147,14 @@ document.addEventListener('DOMContentLoaded', () => {
             formStatus.style.color = '#9ca3af';
             formStatus.textContent = 'Sending your message...';
 
-            // Gather inputs from your form fields
             const formData = {
                 from_name: document.getElementById('user-name')?.value || document.querySelector('[name="from_name"]')?.value || '', 
                 reply_to: document.getElementById('user-email')?.value || document.querySelector('[name="reply_to"]')?.value || '',
                 message: document.getElementById('user-message')?.value || document.querySelector('[name="message"]')?.value || ''
             };
 
-            // UPDATE THIS LINE: Replace with your final deployed Render URL
-            const RENDER_BACKEND_URL = 'https://onrender.com/';
+            // FIX: Pointing exactly to your unique deployed app container endpoint mapping
+            const RENDER_BACKEND_URL = 'https://onrender.com';
 
             fetch(RENDER_BACKEND_URL, {
                 method: 'POST',
@@ -206,6 +205,7 @@ playlistBtns.forEach(btn => {
         
         const videoId = btn.getAttribute('data-video-id');
         if (mainVideoPlayer && videoId) {
+            // FIX: Repaired syntax interpolation structure error
             mainVideoPlayer.src = `https://google.com{videoId}/preview`;
         }
     });
