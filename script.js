@@ -218,7 +218,7 @@ playlistBtns.forEach(btn => {
         const videoId = btn.getAttribute('data-video-id');
         if (mainVideoPlayer && videoId) {
             // FIX: Repaired syntax interpolation structure error
-            mainVideoPlayer.src = `https://google.com{videoId}/preview`;
+            mainVideoPlayer.src = `https://drive.google.com/file/d/${videoId}/preview`;
         }
     });
 });
