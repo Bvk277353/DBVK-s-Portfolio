@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // IMPORTANT:
         // Replace this with the EXACT URL of your Render Web Service.
         const RENDER_BACKEND_URL =
-            'https://https://dbvk-s-portfolio.onrender.com/api/contact';
+            'https://dbvk-s-portfolio.onrender.com/api/contact';
 
         try {
             const response = await fetch(RENDER_BACKEND_URL, {
