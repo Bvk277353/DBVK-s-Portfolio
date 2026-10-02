@@ -8,7 +8,7 @@ app.use(express.json());
 
 // Enable CORS for your GitHub Pages frontend
 app.use(cors({
-    origin: 'https://bvk277353.github.io/DBVK-s-Portfolio/' // Make sure this matches your GitHub Pages domain
+    origin: 'https://bvk277353.github.io' // Make sure this matches your GitHub Pages domain
 }));
 
 app.post('/api/contact', async (req, res) => {
