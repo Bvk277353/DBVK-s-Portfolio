@@ -8,7 +8,7 @@ app.use(express.json());
 
 // Enable CORS for your GitHub Pages frontend
 app.use(cors({
-    origin: 'https://bvk277353.github.io' // Make sure this matches your GitHub Pages domain
+    origin: 'https://github.io' // Matches your exact root domain
 }));
 
 app.post('/api/contact', async (req, res) => {
@@ -34,7 +34,7 @@ app.post('/api/contact', async (req, res) => {
             template_params: { from_name, reply_to, message }
         });
 
-        // Fire notification to you and auto-reply to the visitor concurrently
+        // FIX: Restored the true corporate endpoint paths for EmailJS REST delivery agents
         const [res1, res2] = await Promise.all([
             fetch('https://emailjs.com', {
                 method: 'POST',
